@@ -32,8 +32,8 @@ semilogy(SNRdB, ber_sync, '--', 'Color', red, 'LineWidth', 2);       % 紅
 grid on;
 xlabel('SNR (dB)');
 ylabel('Bit Error Rate (BER)');
-legend('理想系統', sprintf('有延遲(%d)和頻偏(%.2f)', theta_true, epsilon_true), ...
-       '同步補償後', 'Location', 'southwest', 'FontSize', 11);
+legend('Ideal System', sprintf('With delay \\theta = %d and frequency offset \\epsilon = %.2f', theta_true, epsilon_true), ...
+       'After synchronization compensation', 'Location', 'southwest', 'FontSize', 11);
 title('OFDM 16QAM BER vs SNR');
 
 %%

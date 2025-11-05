@@ -2,7 +2,7 @@
 clear; clc;
 Nfft = 256;
 SNRdB = 0:5:25;
-numTrials = 10000;     % Monte Carlo 次數，可調 100~1000 取決於效能
+numTrials = 100000;     % Monte Carlo 次數，可調 100~1000 取決於效能
 L_values = [4 8 15]; % 不同 CP 長度
 epsilon_true = 0.2;  % 頻偏
 theta_true = 20;      % 時間偏移
