@@ -34,7 +34,7 @@ xlabel('SNR (dB)');
 ylabel('Bit Error Rate (BER)');
 legend('Ideal System', sprintf('With delay \\theta = %d and frequency offset \\epsilon = %.2f', theta_true, epsilon_true), ...
        'After synchronization compensation', 'Location', 'southwest', 'FontSize', 11);
-title('OFDM 16QAM BER vs SNR');
+title('OFDM BER vs SNR');
 
 %%
 function ber = simulate_OFDM(Nfft, CP, numSymbols, SNRdB, theta, epsilon, S)
