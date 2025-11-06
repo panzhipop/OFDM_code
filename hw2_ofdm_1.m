@@ -15,8 +15,16 @@ epsilon_true = 0.2;          % 頻率偏移
 M = 16;                      % 16QAM
 bps = log2(M);
 
-%% ✅ 三個實驗共用同一組 bits
+%% 三個實驗共用同一組 bits
 bits = randi([0 1], Nfft*bps, 1);
+
+% 畫出 bits 的長條圖
+figure;
+bar(0:length(bits)-1, bits);        % bar chart
+xlabel('Index');
+ylabel('Bit Value');
+ylim([-0.5 1.5]);                   % 讓 0/1 更清楚
+title('Bit Sequence Bar Chart');
 
 fprintf('\n=== 題目1: Ideal ===\n');
 ber_ideal = simulate_OFDM(Nfft, CP, numSymbols, SNRdB, 0, 0, 0, bits);
@@ -154,6 +162,7 @@ lenr = length(r);
 SNR_linear = 10^(SNRdB/10);
 rho = SNR_linear / (1 + SNR_linear);
 
+% 基本上是會有 theta 個 ， 如題目條件 eg. theta = 7
 theta_max = lenr - N - L;
 theta_cands = 0:theta_max;
 numCands = length(theta_cands);
@@ -167,11 +176,15 @@ for idx = 1:numCands
     phi_sum = 0;
     energy_sum = 0;
 
+    % 這邊在做公式 (6) 、 (7)
     for k = 0:(L-1)
         i1 = theta + k + 1;
         i2 = theta + k + N + 1;
 
+        % correlation part
         phi_sum = phi_sum + conj(r(i2)) * r(i1);
+
+        % energy part
         energy_sum = energy_sum + (abs(r(i1))^2 + abs(r(i2))^2);
     end
 
@@ -180,9 +193,12 @@ for idx = 1:numCands
     Lambda(idx) = abs(phi_sum) - rho * Phi;
 end
 
+% 找到最大值的idx
 [~, max_idx] = max(Lambda);
 theta_ML = theta_cands(max_idx);
 
+% 這邊在做公式 (12) 、 (13)
+% phi 和 epsilon 的 Maxlikelihood estimate
 phi_at = phi_vals(max_idx);
 epsilon_ML = -angle(phi_at)/(2*pi);
 epsilon_ML = mod(epsilon_ML + 0.5, 1) - 0.5;
